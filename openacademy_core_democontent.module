@@ -1,0 +1,9 @@
+<?php
+
+include_once('openacademy_core_democontent.features.inc');
+
+function openacademy_core_democontent_preprocess_page() {
+  $data = entity_uuid_load('fieldable_panels_pane', array('3cf85237-de5c-35b4-095e-64447e9ff6bf'));
+//   die(serialize($data['1']));
+//  dsm($data);
+}

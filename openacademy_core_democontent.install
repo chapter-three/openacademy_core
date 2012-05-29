@@ -1,0 +1,106 @@
+<?php
+
+/**
+ * Implementation of hook_enable()
+ */
+function openacademy_core_democontent_enable() {
+
+  // Create general directory
+  $directory = file_default_scheme() . '://general';
+  file_prepare_directory($directory, FILE_MODIFY_PERMISSIONS);
+  file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
+
+  // Add default frontpage spotlight
+  $frontpage_files = array(
+    'a5fd8592-e336-5344-cd61-5f5b3c6a490c' => array('file' => 'lecture.jpg', 'url'  => 'http://apps.chapterthree.com/sites/all/pictures/lecture.jpg'),
+    'f313ead4-579c-b524-1d7d-ae4a7d7b7784' => array('file' => 'library.jpg', 'url' => 'http://apps.chapterthree.com/sites/all/pictures/library.jpg'),
+    'f9c879ff-06b3-8d44-85a0-da2e714489bb' => array('file' => 'collections.jpg', 'url' => 'http://apps.chapterthree.com/sites/all/pictures/collections.jpg'),
+  );
+  openacademy_core_democontent_load_files($frontpage_files);
+  $frontpage_spotlight = 'O:8:"stdClass":19:{s:3:"vid";s:2:"27";s:9:"timestamp";s:10:"1332022303";s:3:"uid";s:1:"1";s:5:"title";s:0:"";s:3:"log";s:0:"";s:5:"vuuid";s:36:"2a8e31b9-bacd-7164-611b-52da82439620";s:4:"fpid";s:1:"1";s:6:"bundle";s:9:"spotlight";s:8:"reusable";s:1:"0";s:11:"admin_title";s:0:"";s:17:"admin_description";s:0:"";s:8:"category";s:16:"Reusable Content";s:11:"view_access";N;s:11:"edit_access";N;s:7:"created";s:10:"1328587894";s:7:"changed";s:10:"1332022303";s:4:"uuid";s:36:"3cf85237-de5c-35b4-095e-64447e9ff6bf";s:11:"current_vid";s:2:"27";s:27:"field_basic_spotlight_items";a:1:{s:3:"und";a:3:{i:0;a:13:{s:5:"title";s:25:"New Collection at Library";s:11:"description";s:151:"The library is announcing a new collection that features extensive primary source documents on the American South and the Modern Civil Rights Movement.";s:3:"fid";s:3:"208";s:4:"link";s:28:"http://www.lib.berkeley.edu/";s:3:"uid";s:1:"1";s:8:"filename";s:15:"collections.jpg";s:3:"uri";s:32:"public://general/collections.jpg";s:8:"filemime";s:10:"image/jpeg";s:8:"filesize";s:5:"99611";s:6:"status";s:1:"1";s:9:"timestamp";s:10:"1332022223";s:4:"type";s:5:"image";s:4:"uuid";s:36:"f313ead4-579c-b524-1d7d-ae4a7d7b7784";}i:1;a:13:{s:5:"title";s:28:"Library Renovations Complete";s:11:"description";s:91:"The library has completed its scheduled renovations and has resumed normal operating hours.";s:3:"fid";s:3:"207";s:4:"link";s:28:"http://www.lib.berkeley.edu/";s:3:"uid";s:1:"1";s:8:"filename";s:11:"library.jpg";s:3:"uri";s:28:"public://general/library.jpg";s:8:"filemime";s:10:"image/jpeg";s:8:"filesize";s:6:"287129";s:6:"status";s:1:"1";s:9:"timestamp";s:10:"1332022223";s:4:"type";s:5:"image";s:4:"uuid";s:36:"f9c879ff-06b3-8d44-85a0-da2e714489bb";}i:2;a:13:{s:5:"title";s:24:"Lecture Series Announced";s:11:"description";s:108:"The Orville Vernon Burton lecture series has been announced! Check the events calendar for more information.";s:3:"fid";s:3:"209";s:4:"link";s:27:"http://events.berkeley.edu/";s:3:"uid";s:1:"1";s:8:"filename";s:11:"lecture.jpg";s:3:"uri";s:28:"public://general/lecture.jpg";s:8:"filemime";s:10:"image/jpeg";s:8:"filesize";s:6:"480560";s:6:"status";s:1:"1";s:9:"timestamp";s:10:"1332022223";s:4:"type";s:5:"image";s:4:"uuid";s:36:"a5fd8592-e336-5344-cd61-5f5b3c6a490c";}}}}';
+  $frontpage_spotlight_entity = unserialize($frontpage_spotlight);
+  foreach($frontpage_spotlight_entity->field_basic_spotlight_items['und'] as $key => $value) {
+    $frontpage_spotlight_entity->field_basic_spotlight_items['und'][$key]['fid'] = $frontpage_files[$frontpage_spotlight_entity->field_basic_spotlight_items['und'][$key]['uuid']]['fid'];
+  }
+  entity_uuid_save('fieldable_panels_pane', $frontpage_spotlight_entity);
+
+  // Add default frontpage about
+  $frontpage_about = 'O:8:"stdClass":20:{s:3:"vid";s:2:"18";s:9:"timestamp";s:10:"1332019920";s:3:"uid";s:1:"1";s:5:"title";s:18:"About Open Academy";s:3:"log";s:0:"";s:5:"vuuid";s:36:"792d2165-71fa-5714-194e-2bc201628360";s:4:"fpid";s:1:"2";s:6:"bundle";s:4:"text";s:8:"reusable";s:1:"0";s:11:"admin_title";s:0:"";s:17:"admin_description";s:0:"";s:8:"category";s:16:"Reusable Content";s:11:"view_access";N;s:11:"edit_access";N;s:7:"created";s:10:"1329015707";s:7:"changed";s:10:"1332019920";s:4:"uuid";s:36:"e663c0b4-8de1-1e54-2133-3de6a740bb8c";s:11:"current_vid";s:2:"18";s:21:"field_basic_text_link";a:1:{s:3:"und";a:1:{i:0;a:3:{s:3:"url";s:39:"http://www.chapterthree.com/openacademy";s:5:"title";N;s:10:"attributes";a:0:{}}}}s:21:"field_basic_text_text";a:1:{s:3:"und";a:1:{i:0;a:3:{s:5:"value";s:486:"<p>Open Academy is a Drupal distribution that hopes to provide the best in web publishing for higher education on a customizable, open source platform.</p><p>Powered by the <a href="http://drupal.org/project/panopoly">Panopoly Drupal product framework</a> and packaged with useful&nbsp;<a href="http://drupal.org/project/apps">Apps</a>&nbsp;for news, courses, events, people and publications, Open Academy makes it easy for universities to create and customize their websites.&nbsp;</p>";s:6:"format";s:21:"panopoly_wysiwyg_text";s:10:"safe_value";s:474:"<p>Open Academy is a Drupal distribution that hopes to provide the best in web publishing for higher education on a customizable, open source platform.</p><p>Powered by the <a href="http://drupal.org/project/panopoly">Panopoly Drupal product framework</a> and packaged with useful <a href="http://drupal.org/project/apps">Apps</a> for news, courses, events, people and publications, Open Academy makes it easy for universities to create and customize their websites. </p>";}}}}';
+  entity_uuid_save('fieldable_panels_pane', unserialize($frontpage_about));
+}
+
+/**
+ * Helper function to download images and add them to the files directory
+ */
+function openacademy_core_democontent_load_files(&$files, $subdir = 'general') {
+  foreach($files as $uuid => $file_info) {
+    $file_data = drupal_http_request($file_info['url']);
+    $file = file_save_data($file_data->data, variable_get('file_default_scheme', 'public') . '://' . $subdir . '/' . $file_info['file']);
+    $file->status = FILE_STATUS_PERMANENT;
+    $file->uuid = $uuid;
+    $file = file_save($file);       
+    $files[$uuid]['fid'] = $file->fid;
+  }
+}
+
+/**
+ * Callback to get default taxonomy terms
+ */
+function openacademy_core_democontent_get_terms() {
+  return array(
+    'Fall' => 'd722ceaf-9598-44e0-ae48-ff04f8a9904f',
+    'Spring' => 'd218e25a-7f9a-4f91-b115-132fbb6abcc4',
+  );
+}
+
+/**
+ * Implementation of hook_init()
+ */
+function openacademy_core_democontent_init() {
+
+  // Install the taxonomy terms after features has already been installed. Pattern from Open Enterprise. 
+  if (!variable_get('openacademy_core_democontent_installed', FALSE) && $vocab = taxonomy_vocabulary_machine_name_load('openacademy_academic_term')) {
+
+    // Add default taxonomy terms
+    $academic_terms = openacademy_core_democontent_get_terms();
+    foreach($academic_terms as $academic_term => $event_uuid) {
+
+      // Add the term 
+      $term = new stdClass;
+      $term->vid = $vocab->vid;
+      $term->uuid = $event_uuid;
+      $term->name = $academic_term;
+      $term->vocabulary_machine_name = 'openacademy_academic_term';
+      taxonomy_term_save($term);
+    }
+
+    // Set installed bit to prevent this from running again
+    variable_set('openacademy_core_democontent_installed', TRUE);
+  }
+}
+
+/**
+ * Implementation of hook_disable()
+ */
+function openacademy_core_democontent_disable() {
+
+  // Delete existing terms
+  $academic_terms = openacademy_core_democontent_get_terms();
+  foreach($academic_terms as $academic_term) {
+    foreach (taxonomy_get_term_by_name($academic_term) as $term) {
+      if (isset($term->tid)) {
+        taxonomy_term_delete($term->tid);
+      }
+    }
+  }
+
+  // Delete preinstalled entities
+  ctools_include('uuid.entity', 'uuid', '');
+  $fpid = db_query('SELECT fpid FROM {fieldable_panels_panes} WHERE uuid = :uuid', array(':uuid' => '3cf85237-de5c-35b4-095e-64447e9ff6bf'))->fetchField();
+  fieldable_panels_panes_delete($fpid);
+  $fpid = db_query('SELECT fpid FROM {fieldable_panels_panes} WHERE uuid = :uuid', array(':uuid' => 'e663c0b4-8de1-1e54-2133-3de6a740bb8c'))->fetchField();
+  fieldable_panels_panes_delete($fpid);
+
+   // Set installed option
+  variable_set('openacademy_core_democontent_installed', FALSE);
+}

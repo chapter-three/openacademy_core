@@ -1,0 +1,38 @@
+<?php
+/**
+ * @file
+ * Code for the Open Academy Core feature.
+ */
+
+include_once('openacademy_core.features.inc');
+
+/**
+ * Implementation of hook_apps_app_info()
+ */
+function openacademy_core_apps_app_info() {
+  return array(
+    'demo content module' => 'openacademy_core_democontent',
+    'configure form' => 'openacademy_core_configure_form',
+  );
+}
+
+
+/** 
+ * Open Academy Core App Configuration Form
+ *
+ * This form will be blank until we have specific settings to customize beyond
+ * the demo content that the apps.module puts here for us. 
+ */
+function openacademy_core_configure_form($form, &$form_state) {
+  $form = array();
+
+   return $form;
+}
+
+/**
+ * Implementation of hook_preprocess_page()
+ */
+function openacademy_core_preprocess_page(&$vars, $hook) {
+  // Add the footer menu to the page template variables
+  $vars['footer_menu'] = menu_navigation_links('menu-footer-menu');
+}
